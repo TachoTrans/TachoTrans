@@ -6,6 +6,18 @@ if (require('electron-squirrel-startup')) {
   app.quit();
 }
 
+const { ipcMain } = require('electron')
+ipcMain.on('asynchronous-message', (event, arg) => {
+  event.reply('asynchronous-reply', 'pong')
+  if (arg == 'btnclicked') {
+    const {Tachograf} = require('./tachograf');
+    const filePath = path.join(__dirname, '..', 'testFiles', '1750913173350002_Artur_Tadeusz_Mrozinski_04_03_2023_08_51.ddd');
+    const tachograf = new Tachograf(filePath);
+    console.log(tachograf);
+    tachograf.read();
+  }
+})
+
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
